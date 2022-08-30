@@ -1,4 +1,3 @@
-
 # host details
 host_name = 'localhost'
 server_port = 8080
