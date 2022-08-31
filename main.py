@@ -75,12 +75,10 @@ class myServer(BaseHTTPRequestHandler):
 
     def do_GET(self):
         parsed_url = urlparse(self.path)
-        print(parsed_url)
         path = parsed_url.path
         if path == '/GetPageSource' or path == '/favicon.ico' or path == '/' + config.html_file_name:
             self.send_success_headers()
             if path == '/GetPageSource':
-                print(path)
                 self.process_query_url(parsed_url)
             elif path == '/' + config.html_file_name:
                 self.process_html_file()
