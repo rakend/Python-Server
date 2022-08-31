@@ -23,7 +23,9 @@ class myServer(BaseHTTPRequestHandler):
         query =  parsed_url.query
         field = 'url'
         url_list = self.get_url(field, query)
-        url = url_list[0]
+        url = None
+        if url_list:
+            url = url_list[0]
         return url
 
     def write_message(self, message):
@@ -50,9 +52,8 @@ class myServer(BaseHTTPRequestHandler):
 
     def check_file_exists(self):
         html_file_path = None
-        current_directory_path = os.getcwd()
         if os.path.exists(config.html_file_name):
-            html_file_path = os.path.join(current_directory_path, config.html_file_name)
+            html_file_path = os.path.join(os.getcwd(), config.html_file_name)
         return html_file_path
 
     def process_html_file(self):
@@ -74,10 +75,12 @@ class myServer(BaseHTTPRequestHandler):
 
     def do_GET(self):
         parsed_url = urlparse(self.path)
+        print(parsed_url)
         path = parsed_url.path
         if path == '/GetPageSource' or path == '/favicon.ico' or path == '/' + config.html_file_name:
             self.send_success_headers()
             if path == '/GetPageSource':
+                print(path)
                 self.process_query_url(parsed_url)
             elif path == '/' + config.html_file_name:
                 self.process_html_file()
